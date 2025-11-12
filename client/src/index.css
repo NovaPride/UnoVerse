@@ -1,2 +1,17 @@
 @import "tailwindcss";
 
+@theme {
+  --color-uno-white: #e2e2e2;
+  --color-uno-black: #000000;
+  --color-uno-red: #c50c01;
+  --color-uno-green: #328a11;
+  --color-uno-blue: #0849a3;
+  --color-uno-yellow: #e7d005;
+}
+
+/* Needed to be sure that colors will be compiled */
+@source inline("{bg,text,border,accent,shadow}-{uno-white,uno-black,uno-red,uno-green,uno-blue,uno-yellow}");
+
+* {
+  user-select: none;
+}
