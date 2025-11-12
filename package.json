@@ -1,0 +1,20 @@
+{
+  "name": "unoverse",
+  "private": true,
+  "version": "0.0.0",
+  "author": "NovaPride",
+  "license": "ISC",
+  "description": "Online UNO Game",
+  "keywords": [],
+  "scripts": {
+    "dev:c": "cd client && npm run dev",
+    "dev:s": "cd server && npm run dev",
+    "dev": "concurrently \"npm run dev:s\" \"npm run dev:c\"",
+    "build": "",
+    "lint": "",
+    "preview": ""
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}
