@@ -11,6 +11,7 @@
 
 /* Needed to be sure that colors will be compiled */
 @source inline("{bg,text,border,accent,shadow}-{uno-white,uno-black,uno-red,uno-green,uno-blue,uno-yellow}");
+@source inline("bg-{red,green,yellow,pink,blue}-600/12");
 
 * {
   user-select: none;

@@ -1,6 +1,7 @@
 import { Zone } from "@/components/ui/zone";
 import { ActionPanel } from "@/features/game/action-panel";
 import { DiscardPile } from "@/features/game/discard-pile";
+import { DrawPile } from "@/features/game/draw-pile";
 import { GameBoard } from "@/features/game/game-board";
 import { PlayerHand } from "@/features/game/player-hand";
 
@@ -22,7 +23,7 @@ export function GamePage() {
     // <DndContext onDragEnd={handleDragEnd}>
     <GameBoard>
       <Zone color="red" gridArea="opponent-hand"></Zone>
-      <Zone color="green" gridArea="deck"></Zone>
+      <DrawPile />
       <DiscardPile />
       <ActionPanel />
       <PlayerHand />

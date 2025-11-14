@@ -11,7 +11,7 @@ export function GameBoard({ children }: GameBoardProps) {
         style={{
           gridTemplate: `
           "opponent-hand opponent-hand opponent-hand" 1fr
-          "deck discard-pile action-panel" 3fr
+          "draw-pile discard-pile action-panel" 3fr
           "player-hand player-hand player-hand" 1fr
           / 1fr 3fr 1fr
         `,

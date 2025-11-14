@@ -1,7 +1,6 @@
+import { __ZONE_ENABLE_DEBUG__ } from "@/lib/constants";
 import clsx from "clsx";
 import type { Ref } from "react";
-
-const isDebug = true;
 
 type ColorVariant = "red" | "green" | "yellow" | "pink" | "blue";
 interface ZoneProps {
@@ -18,7 +17,7 @@ export function Zone({ color = "red", gridArea, ref, children }: ZoneProps) {
       style={{ gridArea }}
       className={clsx(
         "flex h-full grow items-center justify-center",
-        isDebug && `bg-${color}-600/10`,
+        __ZONE_ENABLE_DEBUG__ && `bg-${color}-600/12`,
       )}
     >
       {children}
