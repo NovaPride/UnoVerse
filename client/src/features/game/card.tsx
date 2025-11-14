@@ -1,41 +1,38 @@
 import { motion } from "motion/react";
 import { useDragControls } from "motion/react";
-import { type RefObject } from "react";
 import { useDraggable } from "@dnd-kit/core";
+import { type Card, type DigitRange, type SpecialContent } from "@/types/game";
+import type { RefObject } from "react";
 
-type ColorTypes = "black" | "red" | "green" | "blue" | "yellow";
-
-type DigitRange = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
-
-type SpecialContent =
-  | "skip"
-  | "reverse"
-  | "draw-two"
-  | "wild"
-  | "wild-draw-four";
-
-interface BaseCardProps {
-  color: ColorTypes;
+type CardProps = Card & {
   location?: "hand" | "table";
   size?: "normal" | "big";
-  id: number;
   zIndex: number;
   onCardMouseDown: (id: number) => void;
   container: RefObject<null>;
   children?: React.ReactNode;
-}
+};
 
-interface DigitCardProps extends BaseCardProps {
-  type: "digit";
-  content: DigitRange;
-}
-
-interface SpecialCardProps extends BaseCardProps {
-  type: "special";
-  content: SpecialContent;
-}
-
-type GameTableProps = DigitCardProps | SpecialCardProps;
+const getDisplayContent = (
+  type: "digit" | "special",
+  content: DigitRange | SpecialContent,
+) => {
+  if (type === "digit") return content.toString();
+  switch (content) {
+    case "skip":
+      return "⊘";
+    case "reverse":
+      return "↺";
+    case "draw-two":
+      return "+2";
+    case "wild":
+      return "W";
+    case "wild-draw-four":
+      return "+4";
+    default:
+      return "UNK";
+  }
+};
 
 export default function Card({
   color = "black",
@@ -48,20 +45,12 @@ export default function Card({
   onCardMouseDown,
   container,
   children,
-}: GameTableProps) {
+}: CardProps) {
   const controls = useDragControls();
   const scale = { normal: 0.69, big: 1 }[size];
 
-  const { attributes, listeners, setNodeRef, transform, isDragging } =
-    useDraggable({
-      id: id, // ◄◄◄ используем id карты
-    });
-
-  // const dragStyle = transform
-  //   ? {
-  //       transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
-  //     }
-  //   : {};
+  // transform, isDragging
+  const { attributes, listeners, setNodeRef } = useDraggable({ id });
 
   const handleMouseDown = ({ button }: React.MouseEvent) => {
     if (button === 2) onCardMouseDown(id);
@@ -89,23 +78,20 @@ export default function Card({
       whileTap={{ scale: 1 }}
       onHoverStart={() => null}
       ref={setNodeRef}
-      {...dragProps}
+      className="flex items-center justify-center"
       style={{
         width: `calc(224px * ${scale})`,
         height: `calc(352px * ${scale})`,
         zIndex: `${zIndex}`,
-        // ...dragStyle, // ◄◄◄ применяем трансформации DnD
-        // opacity: isDragging ? 0.5 : 1, // ◄◄◄ визуальный feedback
       }}
-      {...listeners} // ◄◄◄ обработчики событий DnD
-      {...attributes} // ◄◄◄ accessibility атрибуты
-      className="flex items-center justify-center"
+      {...dragProps}
+      {...listeners}
+      {...attributes}
     >
       <div
         className={`bg-uno-white border-uno-black aspect-56/88 h-88 shrink-0 grow-0 overflow-hidden rounded-2xl border p-5`}
         style={{
           transform: `scale(${scale})`,
-          // padding: `calc(20px * ${scale })`,
         }}
       >
         <div className="pointer-events-none absolute inset-0 shadow-[inset_0_0_8px_rgba(0,0,0,0.69)]" />
@@ -124,7 +110,6 @@ export default function Card({
               transform: "skew(0deg, -35deg) scale(1, 1.16) translateY(-43%)",
             }}
           />
-
           <div
             className="absolute grid h-full w-full overflow-hidden rounded-2xl"
             style={{
@@ -143,7 +128,7 @@ export default function Card({
               className={"flex items-center justify-center"}
             >
               <p className={"text-uno-white text-5xl font-semibold"}>
-                {type === "digit" ? content : "NOT_IMPLEMENTED_YET"}
+                {getDisplayContent(type, content)}
               </p>
             </div>
             <div
@@ -151,7 +136,7 @@ export default function Card({
               className={"flex items-center justify-center"}
             >
               <p className={"text-uno-white text-7xl font-semibold"}>
-                {type === "digit" ? content : "NOT_IMPLEMENTED_YET"}
+                {getDisplayContent(type, content)}
               </p>
             </div>
             <div
@@ -162,7 +147,7 @@ export default function Card({
               className={"flex items-center justify-center"}
             >
               <p className={"text-uno-white text-5xl font-semibold"}>
-                {type === "digit" ? content : "NOT_IMPLEMENTED_YET"}
+                {getDisplayContent(type, content)}
               </p>
             </div>
           </div>
