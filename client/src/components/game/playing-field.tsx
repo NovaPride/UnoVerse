@@ -3,11 +3,11 @@ import Zone from "@/components/ui/zone";
 import Card from "./card";
 import { useDroppable } from "@dnd-kit/core";
 
-export default function PlayerHand({ cards }) {
+export default function PlayingField({ cards }) {
   const container = useRef(null);
 
   const { setNodeRef, isOver } = useDroppable({
-    id: "player-hand-drop-zone",
+    id: "table-drop-zone",
   });
 
   const [cardStack, setCardStack] = useState<number[]>([1, 2, 3, 4]); // массив id карт в порядке z-index
@@ -25,10 +25,10 @@ export default function PlayerHand({ cards }) {
   };
 
   return (
-    <Zone color="blue" gridArea="player-hand" ref={container}>
+    <Zone color="yellow" gridArea="playing-field" ref={container}>
       <div
         ref={setNodeRef}
-        className={`table-zone items-centers flex h-full grow ${isOver ? "bg-green-200/20" : "bg-gray-200/20"}`}
+        className={`table-zone flex min-h-40 grow items-center justify-center ${isOver ? "bg-green-200/20" : "bg-gray-200/20"}`}
         style={{
           border: "2px dashed #ccc",
           borderRadius: "8px",
@@ -36,7 +36,7 @@ export default function PlayerHand({ cards }) {
       >
         {cards.map(({ type, content, color, id }) => (
           <Card
-            location="hand"
+            location="table"
             type={type}
             content={content}
             color={color}

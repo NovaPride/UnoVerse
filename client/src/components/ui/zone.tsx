@@ -17,7 +17,7 @@ function Zone({ color = "red", gridArea, ref, children }: ZoneProps) {
       ref={ref ? ref : null}
       style={{ gridArea }}
       className={clsx(
-        "flex items-center justify-center",
+        "flex items-center justify-center grow h-full",
         isDebug && `bg-${color}-600/10`,
       )}
     >

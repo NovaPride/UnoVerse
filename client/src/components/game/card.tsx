@@ -1,6 +1,7 @@
 import { motion } from "motion/react";
 import { useDragControls } from "motion/react";
 import { type RefObject } from "react";
+import { useDraggable } from "@dnd-kit/core";
 
 type ColorTypes = "black" | "red" | "green" | "blue" | "yellow";
 
@@ -15,6 +16,7 @@ type SpecialContent =
 
 interface BaseCardProps {
   color: ColorTypes;
+  location?: "hand" | "table";
   size?: "normal" | "big";
   id: number;
   zIndex: number;
@@ -39,6 +41,7 @@ export default function Card({
   color = "black",
   type = "digit",
   size = "normal",
+  location = "hand",
   content,
   id,
   zIndex,
@@ -49,9 +52,35 @@ export default function Card({
   const controls = useDragControls();
   const scale = { normal: 0.69, big: 1 }[size];
 
+  const { attributes, listeners, setNodeRef, transform, isDragging } =
+    useDraggable({
+      id: id, // ◄◄◄ используем id карты
+    });
+
+  // const dragStyle = transform
+  //   ? {
+  //       transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
+  //     }
+  //   : {};
+
   const handleMouseDown = ({ button }: React.MouseEvent) => {
     if (button === 2) onCardMouseDown(id);
   };
+
+  const dragProps =
+    location === "hand"
+      ? {
+          drag: true,
+          dragControls: controls,
+          dragConstraints: container,
+          dragElastic: 1,
+          dragTransition: {
+            bounceStiffness: 250,
+            velocity: 0,
+            bounceDamping: 25,
+          },
+        }
+      : {};
 
   return (
     <motion.div
@@ -59,20 +88,17 @@ export default function Card({
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 1 }}
       onHoverStart={() => null}
-      drag
-      dragControls={controls}
-      dragConstraints={container}
-      dragElastic={1}
-      dragTransition={{
-        bounceStiffness: 250,
-        velocity: 0,
-        bounceDamping: 25,
-      }}
+      ref={setNodeRef}
+      {...dragProps}
       style={{
         width: `calc(224px * ${scale})`,
         height: `calc(352px * ${scale})`,
         zIndex: `${zIndex}`,
+        // ...dragStyle, // ◄◄◄ применяем трансформации DnD
+        // opacity: isDragging ? 0.5 : 1, // ◄◄◄ визуальный feedback
       }}
+      {...listeners} // ◄◄◄ обработчики событий DnD
+      {...attributes} // ◄◄◄ accessibility атрибуты
       className="flex items-center justify-center"
     >
       <div
