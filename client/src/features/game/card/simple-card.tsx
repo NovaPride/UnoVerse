@@ -1,18 +1,10 @@
-import { motion } from "motion/react";
-import { useDragControls } from "motion/react";
-import { useDraggable } from "@dnd-kit/core";
 import { type Card, type DigitRange, type SpecialContent } from "@/types/game";
-import type { RefObject } from "react";
 
-type CardProps = Card & {
-  location?: "hand" | "table";
-  size?: "normal" | "big";
-  zIndex: number;
-  onCardMouseDown: (id: number) => void;
-  container: RefObject<null>;
-  children?: React.ReactNode;
+type SimpleCardProps = Omit<Card, "id"> & {
+  scale: number;
 };
 
+//todo refuck
 const getDisplayContent = (
   type: "digit" | "special",
   content: DigitRange | SpecialContent,
@@ -34,59 +26,19 @@ const getDisplayContent = (
   }
 };
 
-export default function Card({
+export function SimpleCard({
   color = "black",
   type = "digit",
-  size = "normal",
-  location = "hand",
   content,
-  id,
-  zIndex,
-  onCardMouseDown,
-  container,
-  children,
-}: CardProps) {
-  const controls = useDragControls();
-  const scale = { normal: 0.69, big: 1 }[size];
-
-  // transform, isDragging
-  const { attributes, listeners, setNodeRef } = useDraggable({ id });
-
-  const handleMouseDown = ({ button }: React.MouseEvent) => {
-    if (button === 2) onCardMouseDown(id);
-  };
-
-  const dragProps =
-    location === "hand"
-      ? {
-          drag: true,
-          dragControls: controls,
-          dragConstraints: container,
-          dragElastic: 1,
-          dragTransition: {
-            bounceStiffness: 250,
-            velocity: 0,
-            bounceDamping: 25,
-          },
-        }
-      : {};
-
+  scale = 1,
+}: SimpleCardProps) {
   return (
-    <motion.div
-      onMouseDown={handleMouseDown}
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 1 }}
-      onHoverStart={() => null}
-      ref={setNodeRef}
+    <div
       className="flex items-center justify-center"
       style={{
         width: `calc(224px * ${scale})`,
         height: `calc(352px * ${scale})`,
-        zIndex: `${zIndex}`,
       }}
-      {...dragProps}
-      {...listeners}
-      {...attributes}
     >
       <div
         className={`bg-uno-white border-uno-black aspect-56/88 h-88 shrink-0 grow-0 overflow-hidden rounded-2xl border p-5`}
@@ -151,9 +103,8 @@ export default function Card({
               </p>
             </div>
           </div>
-          <div>{children}</div>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 }

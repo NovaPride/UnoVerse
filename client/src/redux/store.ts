@@ -1,6 +1,6 @@
-import { configureStore } from "@reduxjs/toolkit";
-import gameReducer from "@/redux/slices/game-slice";
 import { socketMiddleware } from "@/redux/middleware/socket-middleware";
+import gameReducer from "@/redux/slices/game-slice";
+import { configureStore } from "@reduxjs/toolkit";
 
 export const store = configureStore({
   reducer: {

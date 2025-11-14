@@ -1,7 +1,7 @@
+import { useSocket } from "@/hooks/useSocket";
+import { GamePage } from "@/pages/game-page";
+import { MainPage } from "@/pages/main-page";
 import { Route, Routes } from "react-router";
-import { useSocket } from "./hooks/useSocket";
-import MainPage from "@/pages/main-page";
-import GamePage from "@/pages/game-page";
 
 // import { io } from "socket.io-client";
 
@@ -18,7 +18,7 @@ document.addEventListener("contextmenu", (e) => e.preventDefault());
 //   console.log(message);
 // });
 
-function App() {
+export function App() {
   useSocket("http://localhost:8080");
 
   return (
@@ -29,5 +29,3 @@ function App() {
     </Routes>
   );
 }
-
-export default App;

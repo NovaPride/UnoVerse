@@ -1,6 +1,6 @@
+import { socketService } from "@/lib/socket";
 import { useEffect } from "react";
 import { useAppDispatch } from "./redux";
-import { socketService } from "../lib/socket";
 
 import { serverDrawCard } from "@/redux/slices/game-slice";
 

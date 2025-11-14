@@ -5,4 +5,4 @@ interface IState {
 }
 
 export const getPlayerHandCards = (state: IState) => state.game.player.cards;
-export const getPlayingFieldCards = (state: IState) => state.game.field.cards;
+export const getDiscardPileCards = (state: IState) => state.game.discard.cards;

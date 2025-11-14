@@ -1,0 +1,28 @@
+Асинхронные санки
+вместо client/server актионов, можно ебануть 1 санку, которая будет делать 
+emit на сервер -> дожидаться ответа -> диспатчить актион на изменение стейта
+типо такого
+
+export const getProcessTitle =
+  (id: string | undefined): ActionAsyncFunction<void> =>
+  async (dispatch, _getState, { api }) => {
+      try {
+          dispatch(setLoading(true));
+          dispatch(setProcessTitle(titleInitialState.processTitle));
+
+          if (id) {
+              const result = await api.confirmdocs.title({ id });
+
+              dispatch(setProcessTitle(result.data));
+          }
+      } catch (err: any) {
+          dispatch(
+              CreateErrorNotification(
+                  err?.response?.data?.errorMessage ?? errorMsg,
+                  'Ошибка получения данных заголовка для укаанного процесса',
+              ),
+          );
+      } finally {
+          dispatch(setLoading(false));
+      }
+  };

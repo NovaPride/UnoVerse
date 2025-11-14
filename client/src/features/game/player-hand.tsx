@@ -1,11 +1,12 @@
+import { Zone } from "@/components/ui/zone";
+import { PlayerHandCard } from "@/features/game/card";
 import { useRef, useState } from "react";
-import Zone from "@/components/ui/zone";
-import Card from "./card";
-import { useDroppable } from "@dnd-kit/core";
-import { getPlayerHandCards } from "@/redux/selectors/game-selector";
-import { useAppSelector } from "@/hooks/redux";
 
-export default function PlayerHand() {
+import { useAppSelector } from "@/hooks/redux";
+import { getPlayerHandCards } from "@/redux/selectors/game-selector";
+import { useDroppable } from "@dnd-kit/core";
+
+export function PlayerHand() {
   const cards = useAppSelector(getPlayerHandCards);
 
   const container = useRef(null);
@@ -39,8 +40,7 @@ export default function PlayerHand() {
         }}
       >
         {cards.map(({ type, content, color, id }) => (
-          <Card
-            location="hand"
+          <PlayerHandCard
             type={type}
             content={content}
             color={color}
