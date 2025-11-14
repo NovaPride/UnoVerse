@@ -1,7 +1,8 @@
-import GameTable from "@/features/game/game-table";
-import PlayerHand from "@/features/game/player-hand";
 import Zone from "@/components/ui/zone";
+import GameTable from "@/features/game/game-table";
 import PlayingField from "@/features/game/playing-field";
+import Controls from "@/features/game/controls";
+import PlayerHand from "@/features/game/player-hand";
 
 // import { DndContext, DragEndEvent, useDroppable } from "@dnd-kit/core";
 
@@ -23,7 +24,7 @@ function GamePage() {
       <Zone color="red" gridArea="enemy-hand"></Zone>
       <Zone color="green" gridArea="deck"></Zone>
       <PlayingField />
-      <Zone color="pink" gridArea="controls"></Zone>
+      <Controls />
       <PlayerHand />
     </GameTable>
     // </DndContext>

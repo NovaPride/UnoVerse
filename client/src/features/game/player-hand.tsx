@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import Zone from "@/components/ui/zone";
 import Card from "./card";
 import { useDroppable } from "@dnd-kit/core";
-import { getPlayerHandCards } from "@/redux/selectors/player-hand-selector";
+import { getPlayerHandCards } from "@/redux/selectors/game-selector";
 import { useAppSelector } from "@/hooks/redux";
 
 export default function PlayerHand() {

@@ -1,12 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
-import playerHandReducer from "@/redux/slices/player-hand-slice";
-import playingFieldReducer from "@/redux/slices/playing-field-slice";
+import gameReducer from "@/redux/slices/game-slice";
+import { socketMiddleware } from "@/redux/middleware/socket-middleware";
 
 export const store = configureStore({
   reducer: {
-    playerHand: playerHandReducer,
-    playingField: playingFieldReducer,
+    game: gameReducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(socketMiddleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

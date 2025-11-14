@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import Zone from "@/components/ui/zone";
 import Card from "./card";
 import { useDroppable } from "@dnd-kit/core";
-import { getPlayingFieldCards } from "@/redux/selectors/playing-field-selector";
+import { getPlayingFieldCards } from "@/redux/selectors/game-selector";
 import { useAppSelector } from "@/hooks/redux";
 
 export default function PlayingField() {
