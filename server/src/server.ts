@@ -24,7 +24,7 @@ io.on("connection", (socket: Socket) => {
 
   socket.on("client-draw-card", () => {
     const card = generateCard();
-    console.log("Generated card: ", card);
+    // console.log("Generated card: ", card);
     socket.emit("server-draw-card", card);
   });
 

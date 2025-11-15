@@ -4,30 +4,36 @@ import { DiscardPile } from "@/features/game/discard-pile";
 import { DrawPile } from "@/features/game/draw-pile";
 import { GameBoard } from "@/features/game/game-board";
 import { PlayerHand } from "@/features/game/player-hand";
+import { useAppDispatch } from "@/hooks/redux";
+import { clientDrawCard } from "@/redux/slices/game-slice";
+import { DndContext, type DragEndEvent } from "@dnd-kit/core";
 
 // import { DndContext, DragEndEvent, useDroppable } from "@dnd-kit/core";
 
 export function GamePage() {
-  // const handleDragEnd = (event: DragEndEvent) => {
-  //   const { active, over } = event;
-  //   if (!over) return; // если не над дроп-зоной
-  //   const draggedCard = handCards.find((card) => card.id === active.id);
-  //   if (over.id === "discard-pile-drop-zone" && draggedCard) {
-  //     // Переносим карту из руки на стол
-  //     setHandCards((prev) => prev.filter((card) => card.id !== active.id));
-  //     setTableCards((prev) => [...prev, draggedCard]);
-  //   }
-  // };
+  const dispatch = useAppDispatch();
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    const from = event.active.data.current?.sourceContainer;
+    const to = event.over?.id;
+    // console.log(from, to);
+
+    if (!to) return;
+
+    if (from === "draw-pile" && to === "player-hand-drop-zone") {
+      dispatch(clientDrawCard());
+    }
+  };
 
   return (
-    // <DndContext onDragEnd={handleDragEnd}>
-    <GameBoard>
-      <Zone color="red" gridArea="opponent-hand"></Zone>
-      <DrawPile />
-      <DiscardPile />
-      <ActionPanel />
-      <PlayerHand />
-    </GameBoard>
-    // </DndContext>
+    <DndContext onDragEnd={handleDragEnd}>
+      <GameBoard>
+        <Zone color="red" gridArea="opponent-hand"></Zone>
+        <DrawPile />
+        <DiscardPile />
+        <ActionPanel />
+        <PlayerHand />
+      </GameBoard>
+    </DndContext>
   );
 }

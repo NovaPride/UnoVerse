@@ -6,7 +6,7 @@ export const socketMiddleware: Middleware = (/*store*/) =>
   (action) => {
     if (isAction(action) && typeof action.type === "string") {
       const socket = socketService.getSocket();
-      console.log(action.type);
+      // console.log(action.type);
 
       if (action.type === "game/clientDrawCard" && socket) {
         socket.emit("client-draw-card");

@@ -25,7 +25,12 @@ export function PlayerHandCard({
   const scale = { normal: 0.69, big: 1 }[size];
 
   // transform, isDragging
-  const { attributes, listeners, setNodeRef } = useDraggable({ id });
+  const { attributes, listeners, setNodeRef } = useDraggable({
+    id: id,
+    data: {
+      sourceContainer: "player-hand",
+    },
+  });
 
   const handleMouseDown = ({ button }: React.MouseEvent) => {
     if (button === 2) onCardMouseDown(id);
