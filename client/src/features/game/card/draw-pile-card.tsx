@@ -50,6 +50,7 @@ export function DrawPileCard({
       {...dragProps}
       {...listeners}
       {...attributes}
+      className="z-10"
     >
       <CardBack size={size} />
     </motion.div>

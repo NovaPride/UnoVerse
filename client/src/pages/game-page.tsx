@@ -1,3 +1,4 @@
+import { Background } from "@/components/ui/background";
 import { Zone } from "@/components/ui/zone";
 import { ActionPanel } from "@/features/game/action-panel";
 import { DiscardPile } from "@/features/game/discard-pile";
@@ -27,13 +28,15 @@ export function GamePage() {
 
   return (
     <DndContext onDragEnd={handleDragEnd}>
-      <GameBoard>
-        <Zone color="red" gridArea="opponent-hand"></Zone>
-        <DrawPile />
-        <DiscardPile />
-        <ActionPanel />
-        <PlayerHand />
-      </GameBoard>
+      <Background>
+        <GameBoard>
+          <Zone color="red" gridArea="opponent-hand"></Zone>
+          <DrawPile />
+          <DiscardPile />
+          <ActionPanel />
+          <PlayerHand />
+        </GameBoard>
+      </Background>
     </DndContext>
   );
 }

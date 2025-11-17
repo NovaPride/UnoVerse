@@ -1,38 +1,47 @@
-// import express from "express";
-import { Socket } from "socket.io";
-import { generateCard } from "./generate-card";
+import express from "express";
+// import { Socket } from "socket.io";
+// import { generateCard } from "./generate-card";
+import { setupGameHandlers } from "./game/game-server";
 
-// const app = express();
+const app = express();
 
+// const { createServer } = require("http");
+
+const { Server } = require("socket.io");
 // const http = require("http");
 // const server = http.createServer(app);
 
-const { Server } = require("socket.io");
-
-const io = new Server(8080, {
+const httpServer = app.listen(8080);
+const io = new Server(httpServer, {
   cors: {
-    origin: ["http://localhost:5173"],
+    origin: ["http://localhost:5173", "http://localhost:3030"],
+    credentials: true,
   },
 });
 
-io.on("connection", (socket: Socket) => {
-  console.log(`+++ ${socket.id} connected`);
-  socket.on("disconnect", () => {
-    console.log(`--- ${socket.id} disconnected`);
-    console.log(`______________`);
-  });
+setupGameHandlers(io);
 
-  socket.on("client-draw-card", () => {
-    const card = generateCard();
-    // console.log("Generated card: ", card);
-    socket.emit("server-draw-card", card);
-  });
+const { instrument } = require("@socket.io/admin-ui");
+const adminUI = express();
+adminUI.use(express.static("./node_modules/@socket.io/admin-ui/ui/dist"));
+adminUI.listen(3030);
+instrument(io, { auth: false, mode: "development" });
+// httpServer.listen(8080, () => {
+//   console.log("Server is running on port ");
+// });
 
-  // socket.on("send-message", (id: any, data) => {
-  //   console.log(id, data);
-  //   socket.broadcast.emit("receive-message", `Еблан ? C любовью от ${id}`);
-  // });
-});
+// io.on("connection", (socket: Socket) => {
+//   console.log(`+++ ${socket.id} connected`);
+//   socket.on("disconnect", () => {
+//     console.log(`--- ${socket.id} disconnected`);
+//     console.log(`______________`);
+//   });
+
+//   socket.on("client-draw-card", () => {
+//     const card = generateCard();
+//     socket.emit("server-draw-card", card);
+//   });
+// });
 
 // server.listen(8080, () => {
 //   console.log("listening on *:8080");

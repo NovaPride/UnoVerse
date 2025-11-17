@@ -7,6 +7,7 @@
     "dev": "nodemon ./src/server"
   },
   "dependencies": {
+    "@socket.io/admin-ui": "^0.5.1",
     "cors": "^2.8.5",
     "express": "^5.1.0",
     "socket.io": "^4.8.1"

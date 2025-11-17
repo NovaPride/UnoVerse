@@ -15,7 +15,7 @@ const initialState: IGame = {
     cards: [],
   },
   discard: {
-    cards: [{ id: 53745, type: 'digit', color: 'green', content: 5 }],
+    cards: [],
   },
 };
 
@@ -26,6 +26,10 @@ const gameSlice = createSlice({
     clientDrawCard: () => {},
     serverDrawCard: (state, action: PayloadAction<Card>) => {
       state.player.cards.push(action.payload);
+    },
+    clientCreateGame: () => {},
+    serverGameCreated: (state, action: PayloadAction<Card>) => {
+      console.log("serverGameCreated: ", action.payload)
     },
   },
 });
