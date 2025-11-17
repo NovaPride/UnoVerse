@@ -1,4 +1,4 @@
-import { Zone } from "@/components/ui/zone";
+import { Zone } from "@/components/ui";
 import { DiscardPileCard } from "@/features/game/card";
 import { useAppSelector } from "@/hooks/redux";
 import { getDiscardPileCards } from "@/redux/selectors/game-selector";

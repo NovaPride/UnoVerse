@@ -1,5 +1,4 @@
-import { useAppDispatch } from "@/hooks/redux";
-import { clientDrawCard } from "@/redux/slices/game-slice";
+import { clientSocket } from "@/lib/client-socket";
 import { useDraggable } from "@dnd-kit/core";
 import { motion, useDragControls } from "motion/react";
 import type { RefObject } from "react";
@@ -16,7 +15,6 @@ export function DrawPileCard({
   container,
   size = "normal",
 }: DrawPileCardProps) {
-  const dispatch = useAppDispatch();
   const controls = useDragControls();
 
   const { attributes, listeners, setNodeRef } = useDraggable({
@@ -40,7 +38,7 @@ export function DrawPileCard({
   };
 
   const handleMouseDown = ({ button }: React.MouseEvent) => {
-    if (button === 2) dispatch(clientDrawCard());
+    if (button === 2) clientSocket.drawCard();
   };
 
   return (

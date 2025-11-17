@@ -8,17 +8,31 @@ export function setupGameHandlers(io: Server) {
   io.on("connection", (socket) => {
     const clientId = socket.handshake.auth.clientId;
     const token = socket.handshake.auth.token;
-    
+
     console.log(`+++ ${socket.id} connected ${clientId} ${token}`);
     socket.on("disconnect", () => {
       console.log(`--- ${socket.id} disconnected`);
       console.log(`______________`);
     });
 
-    socket.on("create-game", (roomId) => {
+    socket.on("client-draw-card", () => {
+      socket.emit("server-card-drawn", {
+        color: "red",
+        type: "digit",
+        content: 2,
+        id: "2 ",
+      });
+    });
+
+    socket.on("client-create-game", (roomId) => {
+      if (!roomId) {
+        console.log("client-create-game Doesn provide roomID");
+        return;
+      }
+
       const game = gameManager.createGame(roomId, [socket.id]);
       socket.join(roomId);
-      socket.emit("game-created", game);
+      socket.emit("server-game-created", game);
     });
 
     // socket.on("join-game", (roomId) => {
@@ -41,13 +55,13 @@ export function setupGameHandlers(io: Server) {
     //   }
     // });
 
-    // socket.on("draw-card", (roomId) => {
-    //   const game = gameManager.getGame(roomId);
-    //   if (game) {
-    //     const cardId = gameManager.drawCard(game, socket.id);
-    //     socket.emit("card-drawn", cardId);
-    //     io.to(roomId).emit("game-update", game);
-    //   }
-    // });
+    socket.on("draw-card", (roomId) => {
+      const game = gameManager.getGame(roomId);
+      if (game) {
+        const cardId = gameManager.drawCard(game, socket.id);
+        socket.emit("card-drawn", cardId);
+        io.to(roomId).emit("game-update", game);
+      }
+    });
   });
 }

@@ -1,4 +1,4 @@
-import { Zone } from "@/components/ui/zone";
+import { Zone } from "@/components/ui";
 import { PlayerHandCard } from "@/features/game/card";
 import { useRef, useState } from "react";
 

@@ -1,4 +1,4 @@
-import { Zone } from "@/components/ui/zone";
+import { Zone } from "@/components/ui";
 import { CardBack, DrawPileCard } from "@/features/game/card";
 import { useDroppable } from "@dnd-kit/core";
 import { useRef } from "react";

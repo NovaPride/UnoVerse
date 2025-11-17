@@ -19,22 +19,18 @@ const initialState: IGame = {
   },
 };
 
+//actions - только херня инвокнутая серваком для изменения state
+
 const gameSlice = createSlice({
   name: "game",
   initialState,
   reducers: {
-    clientDrawCard: () => {},
-    serverDrawCard: (state, action: PayloadAction<Card>) => {
+    cardDrawn: (state, action: PayloadAction<Card>) => {
       state.player.cards.push(action.payload);
-    },
-    clientCreateGame: () => {},
-    serverGameCreated: (state, action: PayloadAction<Card>) => {
-      console.log("serverGameCreated: ", action.payload)
     },
   },
 });
-
 const { actions, reducer } = gameSlice;
 
-export const { clientDrawCard, serverDrawCard } = actions;
+export const { cardDrawn } = actions;
 export default reducer;

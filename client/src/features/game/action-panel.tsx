@@ -1,4 +1,4 @@
-import { Zone } from "@/components/ui/zone";
+import { Zone } from "@/components/ui";
 
 const buttonClass =
   "bg-amber-50 pt-1 pr-4 pb-1 pl-4 transition hover:bg-amber-600";
