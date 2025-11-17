@@ -1,21 +1,27 @@
 {
   "name": "server",
   "main": "server.ts",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ./src/server",
-    "dev": "nodemon ./src/server"
+    "start": "tsx src/server.ts",
+    "dev": "nodemon --exec tsx src/server.ts",
+    "build": "tsc && node dist/server.js"
   },
   "dependencies": {
     "@socket.io/admin-ui": "^0.5.1",
+    "@types/node": "^24.10.1",
     "cors": "^2.8.5",
     "express": "^5.1.0",
-    "socket.io": "^4.8.1"
+    "socket.io": "^4.8.1",
+    "tsx": "^4.20.6"
   },
   "devDependencies": {
+    "@eslint/js": "^9.39.1",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.5",
+    "eslint": "^9.39.1",
     "nodemon": "^3.1.11",
-    "ts-node": "^10.9.2"
+    "typescript-eslint": "^8.47.0"
   }
 }

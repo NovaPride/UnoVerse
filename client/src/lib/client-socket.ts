@@ -1,7 +1,8 @@
+import { navigateTo } from "@/lib/navigation";
 import { cardDrawn } from "@/redux/slices/game-slice";
 import { store } from "@/redux/store";
 import { io, Socket } from "socket.io-client";
-import { navigateTo } from "./navigation";
+import { toast } from "sonner";
 
 class ClientSocket {
   private socket: Socket | null = null;
@@ -11,8 +12,8 @@ class ClientSocket {
       connect: (serverUrl: string) => {
         this.socket = io(serverUrl, {
           auth: {
-            clientId: "popapisya",
-            token: "sada",
+            clientId: "clientId",
+            token: "token",
           },
         });
         this.setupListeners();
@@ -32,18 +33,26 @@ class ClientSocket {
     this.socket.on("server-card-drawn", (card) => {
       store.dispatch(cardDrawn(card));
     });
-    this.socket.on("server-game-created", (game) => {
-      console.log("!!!GAME CREATED!!!", game);
-      navigateTo(`/game/${game.roomId}`);
+    this.socket.on("server-player-joined", (game) => {
+      console.log("Room info", game);
     });
+    this.socket.on("server-room-connected-error", (errorMessage) => {
+      toast.error(errorMessage);
+      navigateTo("/");
+    });
+
+    // this.socket.on("server-game-created", (game) => {
+    //   console.log("!!!GAME CREATED!!!", game);
+    //   navigateTo(`/game/${game.roomId}`);
+    // });
   }
 
   //методы для инвока событий на сервак
   drawCard() {
     this.socket?.emit("client-draw-card");
   }
-  createGame(roomId: string) {
-    this.socket?.emit("client-create-game", roomId);
+  connectRoom(roomId: string) {
+    this.socket?.emit("client-connect-room", roomId);
   }
 }
 

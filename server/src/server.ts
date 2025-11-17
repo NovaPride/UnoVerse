@@ -1,9 +1,9 @@
 import express from "express";
 import { setupGameHandlers } from "./game/game-server";
+import { instrument } from "@socket.io/admin-ui";
+import { Server } from "socket.io";
 
 const app = express();
-
-const { Server } = require("socket.io");
 
 const httpServer = app.listen(8080);
 const io = new Server(httpServer, {
@@ -16,7 +16,6 @@ const io = new Server(httpServer, {
 setupGameHandlers(io);
 
 // херня чисто для socket admin ui
-const { instrument } = require("@socket.io/admin-ui");
 const adminUI = express();
 adminUI.use(express.static("./node_modules/@socket.io/admin-ui/ui/dist"));
 adminUI.listen(3030);

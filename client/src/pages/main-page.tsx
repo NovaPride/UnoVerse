@@ -1,18 +1,13 @@
 import unoVerseLogo from "@/assets/imgs/logo.png";
-import { Background, Button, Input } from "@/components/ui";
-import { clientSocket } from "@/lib/client-socket";
-import { useState } from "react";
+import { Background, Button } from "@/components/ui";
+import { useNavigate } from "react-router-dom";
+import { v4 as uuidv4 } from "uuid";
 
 export function MainPage() {
-  const [input, setInput] = useState<string>("");
+  const navigate = useNavigate();
 
   const handleGenerateRoom = () => {
-    if (!input) {
-      console.log("Nope");
-      return;
-    }
-
-    clientSocket.createGame(input);
+    navigate(`/game/${uuidv4()}`);
   };
 
   return (
@@ -21,14 +16,6 @@ export function MainPage() {
         <div className="flex justify-center items-center p-6 min-w-80 min-h-120  gap-1 flex-col rounded-2xl bg-gray-900/50">
           <img src={unoVerseLogo} alt="сосал?" className="max-w-80 mb-16" />
           <div className="flex">
-            <Input
-              value={input}
-              onChange={(event) => {
-                setInput(event.target.value);
-              }}
-              placeholder="RoomID"
-              className="grow"
-            />
             <Button
               variant={"outline"}
               size={"default"}

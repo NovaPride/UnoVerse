@@ -6,8 +6,17 @@ import { GameBoard } from "@/features/game/game-board";
 import { PlayerHand } from "@/features/game/player-hand";
 import { clientSocket } from "@/lib/client-socket";
 import { DndContext, type DragEndEvent } from "@dnd-kit/core";
+import { useEffect } from "react";
+import { useParams } from "react-router-dom";
 
 export function GamePage() {
+  const { roomId } = useParams();
+
+  useEffect(() => {
+    if (!roomId) throw new Error();
+    clientSocket.connectRoom(roomId);
+  }, [roomId]);
+
   const handleDragEnd = (event: DragEndEvent) => {
     const from = event.active.data.current?.sourceContainer;
     const to = event.over?.id;

@@ -1,3 +1,4 @@
+import { Toaster } from "@/components/ui";
 import { clientSocket } from "@/lib/client-socket";
 import { store } from "@/redux/store";
 import { createRoot } from "react-dom/client";
@@ -12,6 +13,7 @@ createRoot(document.getElementById("root")!).render(
   <BrowserRouter>
     <Provider store={store}>
       <App />
+      <Toaster />
     </Provider>
   </BrowserRouter>,
 );

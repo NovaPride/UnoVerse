@@ -25,9 +25,10 @@
     "noUncheckedSideEffectImports": true,
 
     // path rule
-    "baseUrl": ".",
+    "baseUrl": "../",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./client/src/*"],
+      "@shared/*": ["./shared/*"],
     }
   },
   "include": ["src"]

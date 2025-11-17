@@ -4,9 +4,9 @@ import { MainPage } from "@/pages/main-page";
 import { useEffect } from "react";
 import { Route, Routes } from "react-router";
 import { useNavigate } from "react-router-dom";
-
 //disable contextmenu
 document.addEventListener("contextmenu", (e) => e.preventDefault());
+// import {type Player} from "@shared/types/game"
 
 export function App() {
   const navigate = useNavigate();
