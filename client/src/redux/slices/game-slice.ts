@@ -1,9 +1,9 @@
 // import { type Card } from "@/types/game";
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import type { Player, RoomData } from "@shared/types/game";
+import type { CardId, Player, Room } from "@shared/types/game";
 
 export interface IGame {
-  room: RoomData;
+  room: Room;
   player: Player;
 }
 
@@ -16,13 +16,14 @@ const initialState: IGame = {
       drawPile: [],
       discardPile: [],
       currentPlayer: null,
-      direction: 1,
-      currentColor: "",
+      // direction: 1,
+      // currentColor: "",
     },
   },
   player: {
     id: "",
     name: "",
+    cardIds : []
   },
 };
 
@@ -32,14 +33,14 @@ const gameSlice = createSlice({
   name: "game",
   initialState,
   reducers: {
-    // cardDrawn: (state, action: PayloadAction<Card>) => {
-    //   state.player.cards.push(action.payload);
-    // },
+    cardDrawn: (state, action: PayloadAction<CardId[]>) => {
+      state.player.cardIds = action.payload;
+    },
     playerDataChanged: (state, action: PayloadAction<Player>) => {
       state.player = action.payload;
       // state.player.cards.push(action.payload);
     },
-    roomDataChanged: (state, action: PayloadAction<RoomData>) => {
+    roomDataChanged: (state, action: PayloadAction<Room>) => {
       state.room = action.payload;
       // state.player.cards.push(action.payload);
     },
@@ -47,5 +48,5 @@ const gameSlice = createSlice({
 });
 const { actions, reducer } = gameSlice;
 
-export const { roomDataChanged, playerDataChanged } = actions;
+export const { roomDataChanged, playerDataChanged, cardDrawn } = actions;
 export default reducer;

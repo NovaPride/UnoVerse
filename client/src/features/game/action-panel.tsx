@@ -1,14 +1,14 @@
 import { Zone } from "@/components/ui";
 import { useAppSelector } from "@/hooks/redux";
 import { getPlayer, getRoom } from "@/redux/selectors/game-selector";
-import type { Player, RoomData } from "@shared/types/game";
+import type { Player, Room } from "@shared/types/game";
 import { useNavigate } from "react-router-dom";
 
 const buttonClass =
   "bg-amber-50 pt-1 pr-4 pb-1 pl-4 transition hover:bg-amber-600";
 
 export function ActionPanel() {
-  const roomInfo: RoomData = useAppSelector(getRoom);
+  const roomInfo: Room = useAppSelector(getRoom);
   const player: Player = useAppSelector(getPlayer);
   const navigate = useNavigate();
 

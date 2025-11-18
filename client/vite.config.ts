@@ -11,5 +11,10 @@ export default defineConfig({
       "@shared": path.resolve(__dirname, "./shared"),
     },
   },
+  server: {
+    hmr: {
+      clientPort: 5173, // Укажите здесь порт вашего клиента Vite
+    },
+  },
   plugins: [react(), tailwindcss()],
 });

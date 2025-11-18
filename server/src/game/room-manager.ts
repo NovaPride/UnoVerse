@@ -1,10 +1,12 @@
-import type { GameState, Player, RoomData } from "@shared/types/game";
+import { transformPlayer } from "@/utils";
+import type { BasePlayer, GameState, Player, Room } from "@shared/types/game";
+import { GameEngine } from "./game-engine";
 
 export class RoomManager {
-  private rooms: Map<string, RoomData> = new Map();
+  private rooms: Map<string, Room> = new Map();
 
-  createRoom(roomId: string): RoomData {
-    const room: RoomData = {
+  createRoom(roomId: string): Room {
+    const room: Room = {
       id: roomId,
       players: [],
       gameState: this.createInitialGameState(),
@@ -14,7 +16,7 @@ export class RoomManager {
     return room;
   }
 
-  getRoom(roomId: string): RoomData | undefined {
+  getRoom(roomId: string): Room | undefined {
     return this.rooms.get(roomId);
   }
 
@@ -22,11 +24,11 @@ export class RoomManager {
     return this.rooms.get(roomId)?.players || [];
   }
 
-  addPlayerToRoom(roomId: string, player: Player) {
+  addPlayerToRoom(roomId: string, player: BasePlayer) {
     const room = this.rooms.get(roomId);
     if (room) {
       if (room.players.length <= 1) {
-        room.players.push(player);
+        room.players.push(transformPlayer(player));
       } else {
         throw new Error("Error: There is already 2 players!");
       }
@@ -58,10 +60,10 @@ export class RoomManager {
 
   private createInitialGameState(): GameState {
     return {
-      drawPile: [],
+      drawPile: GameEngine.generateDeck(),
       discardPile: [],
       currentPlayer: null,
-      direction: 1,
+      // direction: 1,
     };
   }
 }

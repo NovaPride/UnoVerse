@@ -1,4 +1,4 @@
-import { type Card } from "@/types/game";
+import { type Card } from "@shared/types/game";
 import { useDraggable } from "@dnd-kit/core";
 import { motion, useDragControls } from "motion/react";
 import type { RefObject } from "react";
@@ -7,7 +7,7 @@ import { SimpleCard } from "./simple-card";
 type PlayerHandCardProps = Card & {
   size?: "normal" | "big";
   zIndex: number;
-  onCardMouseDown: (id: number) => void;
+  onCardMouseDown: (id: string) => void;
   container: RefObject<null>;
 };
 

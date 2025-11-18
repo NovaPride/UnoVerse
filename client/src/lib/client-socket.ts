@@ -1,5 +1,9 @@
 import { navigateTo } from "@/lib/navigation";
-import { playerDataChanged, roomDataChanged } from "@/redux/slices/game-slice";
+import {
+  cardDrawn,
+  playerDataChanged,
+  roomDataChanged,
+} from "@/redux/slices/game-slice";
 import { store } from "@/redux/store";
 import type { Player } from "@shared/types/game";
 import { io, Socket } from "socket.io-client";
@@ -15,6 +19,7 @@ class ClientSocket {
         this.socket = io(serverUrl, {
           auth: {
             name: playerName ? playerName : "anon",
+            currentRoomId: "asd",
             // clientId: "clientId",
             // token: "token",
           },
@@ -33,9 +38,9 @@ class ClientSocket {
   private setupListeners() {
     if (!this.socket) return;
 
-    // this.socket.on("server-card-drawn", (card) => {
-    //   store.dispatch(cardDrawn(card));
-    // });
+    this.socket.on("server-card-drawn", (cardIds) => {
+      store.dispatch(cardDrawn(cardIds));
+    });
     this.socket.on("server-player-connected", (playerInfo) => {
       store.dispatch(playerDataChanged(playerInfo));
     });
@@ -46,6 +51,10 @@ class ClientSocket {
       store.dispatch(roomDataChanged(roomInfo));
     });
     this.socket.on("server-room-connected-error", (errorMessage) => {
+      toast.error(errorMessage);
+      navigateTo("/");
+    });
+    this.socket.on("server-game-state-updated", (errorMessage) => {
       toast.error(errorMessage);
       navigateTo("/");
     });
