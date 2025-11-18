@@ -1,50 +1,28 @@
-import { type Card } from "@/types/game";
+// import { type Card } from "@/types/game";
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import type { GameState, Player } from "@shared/types/game";
+import type { Player, RoomData } from "@shared/types/game";
 
 export interface IGame {
-  info: {
-    room: {
-      playerInfo: Player;
-      data: {
-        id: string;
-        createAt: string;
-        players: Player[];
-        gameState: GameState;
-      };
-    };
-  };
-  player: {
-    cards: Card[];
-  };
-  discard: {
-    cards: Card[];
-  };
+  room: RoomData;
+  player: Player;
 }
 
 const initialState: IGame = {
-  info: {
-    room: {
-      playerInfo: { id: "", name: "", cards: [] },
-      data: {
-        id: "",
-        createAt: "",
-        players: [],
-        gameState: {
-          drawPile: [],
-          discardPile: [],
-          currentPlayer: null,
-          direction: 1,
-          currentColor: "",
-        },
-      },
+  room: {
+    id: "",
+    createdAt: new Date().toISOString(),
+    players: [],
+    gameState: {
+      drawPile: [],
+      discardPile: [],
+      currentPlayer: null,
+      direction: 1,
+      currentColor: "",
     },
   },
   player: {
-    cards: [],
-  },
-  discard: {
-    cards: [],
+    id: "",
+    name: "",
   },
 };
 
@@ -54,15 +32,20 @@ const gameSlice = createSlice({
   name: "game",
   initialState,
   reducers: {
-    cardDrawn: (state, action: PayloadAction<Card>) => {
-      state.player.cards.push(action.payload);
+    // cardDrawn: (state, action: PayloadAction<Card>) => {
+    //   state.player.cards.push(action.payload);
+    // },
+    playerDataChanged: (state, action: PayloadAction<Player>) => {
+      state.player = action.payload;
+      // state.player.cards.push(action.payload);
     },
-    playerJoined: (state, action: PayloadAction<Card>) => {
-      state.player.cards.push(action.payload);
+    roomDataChanged: (state, action: PayloadAction<RoomData>) => {
+      state.room = action.payload;
+      // state.player.cards.push(action.payload);
     },
   },
 });
 const { actions, reducer } = gameSlice;
 
-export const { cardDrawn } = actions;
+export const { roomDataChanged, playerDataChanged } = actions;
 export default reducer;

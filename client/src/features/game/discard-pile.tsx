@@ -1,12 +1,10 @@
 import { Zone } from "@/components/ui";
-import { DiscardPileCard } from "@/features/game/card";
-import { useAppSelector } from "@/hooks/redux";
-import { getDiscardPileCards } from "@/redux/selectors/game-selector";
+// import { getDiscardPileCards } from "@/redux/selectors/game-selector";
 import { useDroppable } from "@dnd-kit/core";
 import { useRef } from "react";
 
 export function DiscardPile() {
-  const cards = useAppSelector(getDiscardPileCards);
+  // const cards = useAppSelector(getDiscardPileCards);
 
   const container = useRef(null);
 
@@ -24,7 +22,7 @@ export function DiscardPile() {
           borderRadius: "8px",
         }}
       >
-        {cards.map(({ type, content, color, id }) => (
+        {/* {cards.map(({ type, content, color, id }) => (
           <DiscardPileCard
             type={type}
             content={content}
@@ -32,7 +30,7 @@ export function DiscardPile() {
             id={id}
             key={id}
           />
-        ))}
+        ))} */}
       </div>
     </Zone>
   );

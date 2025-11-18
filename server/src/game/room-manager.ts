@@ -1,6 +1,4 @@
-
-import type {GameState, Player, RoomData} from "@shared/types/game";
-
+import type { GameState, Player, RoomData } from "@shared/types/game";
 
 export class RoomManager {
   private rooms: Map<string, RoomData> = new Map();
@@ -10,7 +8,7 @@ export class RoomManager {
       id: roomId,
       players: [],
       gameState: this.createInitialGameState(),
-      createdAt: new Date(),
+      createdAt: new Date().toISOString(),
     };
     this.rooms.set(roomId, room);
     return room;
@@ -30,7 +28,7 @@ export class RoomManager {
       if (room.players.length <= 1) {
         room.players.push(player);
       } else {
-        throw new Error("Error: There is already 2 players!")
+        throw new Error("Error: There is already 2 players!");
       }
     }
   }
@@ -40,14 +38,13 @@ export class RoomManager {
     if (room) {
       room.players = room.players.filter((player) => player.id !== playerId);
 
-      // Если комната пустая - можно удалить её через некоторое время
       if (room.players.length === 0) {
         setTimeout(() => {
           if (this.getRoom(roomId)?.players.length === 0) {
             this.rooms.delete(roomId);
             console.log(`Room ${roomId} deleted (no players)`);
           }
-        }, 300000); // удалить через 5 минут если пустая
+        }, 300000);
       }
     }
   }
@@ -70,7 +67,6 @@ export class RoomManager {
 }
 
 export const roomManager = new RoomManager();
-
 
 // import type { ActionType, Card, Color, Game } from "./types";
 

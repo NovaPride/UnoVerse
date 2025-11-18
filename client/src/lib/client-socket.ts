@@ -1,6 +1,7 @@
 import { navigateTo } from "@/lib/navigation";
-import { cardDrawn } from "@/redux/slices/game-slice";
+import { playerDataChanged, roomDataChanged } from "@/redux/slices/game-slice";
 import { store } from "@/redux/store";
+import type { Player } from "@shared/types/game";
 import { io, Socket } from "socket.io-client";
 import { toast } from "sonner";
 
@@ -10,10 +11,12 @@ class ClientSocket {
   get __private() {
     return {
       connect: (serverUrl: string) => {
+        const playerName = localStorage.getItem("player-name");
         this.socket = io(serverUrl, {
           auth: {
-            clientId: "clientId",
-            token: "token",
+            name: playerName ? playerName : "anon",
+            // clientId: "clientId",
+            // token: "token",
           },
         });
         this.setupListeners();
@@ -30,11 +33,17 @@ class ClientSocket {
   private setupListeners() {
     if (!this.socket) return;
 
-    this.socket.on("server-card-drawn", (card) => {
-      store.dispatch(cardDrawn(card));
+    // this.socket.on("server-card-drawn", (card) => {
+    //   store.dispatch(cardDrawn(card));
+    // });
+    this.socket.on("server-player-connected", (playerInfo) => {
+      store.dispatch(playerDataChanged(playerInfo));
     });
-    this.socket.on("server-player-joined", (game) => {
-      console.log("Room info", game);
+    this.socket.on("server-player-joined", (roomInfo) => {
+      store.dispatch(roomDataChanged(roomInfo));
+    });
+    this.socket.on("server-player-left", (roomInfo) => {
+      store.dispatch(roomDataChanged(roomInfo));
     });
     this.socket.on("server-room-connected-error", (errorMessage) => {
       toast.error(errorMessage);
@@ -48,6 +57,10 @@ class ClientSocket {
   }
 
   //методы для инвока событий на сервак
+
+  playerDataChange(playerData: Player) {
+    this.socket?.emit("client-player-data-change", playerData);
+  }
   drawCard() {
     this.socket?.emit("client-draw-card");
   }

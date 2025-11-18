@@ -1,8 +1,10 @@
+export type DateTimeString = string;
+
 export interface Player {
   id: string;
   name: string;
-  cards: string[];
-  isReady?: boolean;
+  // cards: string[];
+  // isReady?: boolean;
 }
 
 export interface GameState {
@@ -18,5 +20,5 @@ export interface RoomData {
   id: string;
   players: Player[];
   gameState: GameState;
-  createdAt: Date;
+  createdAt: DateTimeString;
 }

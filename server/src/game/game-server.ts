@@ -5,43 +5,35 @@ import type { Player } from "@shared/types/game";
 
 export function setupGameHandlers(io: Server) {
   io.on("connection", (socket) => {
-    // const clientId = socket.handshake.auth.clientId;
-    // const token = socket.handshake.auth.token;
-    const player: Player = {
+    const authName = socket.handshake.auth.name;
+
+    let player: Player = {
       id: socket.id,
-      name: `asdasdas`,
-      cards: [],
+      name: authName ? authName : "anonymous",
     };
+
+    socket.emit("server-player-connected", {
+      id: player.id,
+      name: player.name,
+    });
 
     socket.on("disconnect", () => {
       const roomId = socket.data.roomId;
       if (roomId) {
-        // console.log(`Player ${socket.id} disconnected from room ${roomId}`);
-
         const room = roomManager.getRoom(roomId);
         if (room) {
           roomManager.removePlayerFromRoom(roomId, socket.id);
-
-          // socket.to(roomId).emit("server-player-left", {
-          //   playerId: socket.id,
-          //   roomData: room,
-          //   // reason: reason
-          // });
+          io.to(roomId).emit("server-player-left", room);
         }
       }
     });
 
     socket.on("client-connect-room", (roomId) => {
-      if (!roomId) {
-        // console.log("client-connect-room Doesn provide roomId");
-        return;
-      }
-
+      if (!roomId) return;
+      
       let room = roomManager.getRoom(roomId);
-      if (!room) {
-        room = roomManager.createRoom(roomId);
-        // console.log(`Created new room: ${roomId}`);
-      }
+      if (!room) room = roomManager.createRoom(roomId);
+
       try {
         roomManager.addPlayerToRoom(roomId, player);
       } catch (err: unknown) {
@@ -54,18 +46,11 @@ export function setupGameHandlers(io: Server) {
       socket.join(roomId);
       socket.data.roomId = roomId;
 
-      // console.log(`${player.id} connected to ${roomId}`);
-      console.log(`Room ${roomId} now has ${room.players.length} players`);
+      io.to(roomId).emit("server-player-joined", room);
+    });
 
-      io.to(roomId).emit("server-player-joined", {
-        playerInfo: player,
-        roomData: room,
-      });
-
-      // socket.to(roomId).emit("server-player-joined", {
-      //   newPlayer: player,
-      //   roomData: room,
-      // });
+    socket.on("client-player-data-change", (playerData: Player) => {
+      player = playerData;
     });
 
     socket.on("client-draw-card", () => {
@@ -76,15 +61,6 @@ export function setupGameHandlers(io: Server) {
         id: "2 ",
       });
     });
-
-    // socket.on("draw-card", (roomId) => {
-    //   const game = gameManager.getGame(roomId);
-    //   if (game) {
-    //     const cardId = gameManager.drawCard(game, socket.id);
-    //     socket.emit("card-drawn", cardId);
-    //     io.to(roomId).emit("game-update", game);
-    //   }
-    // });
   });
 }
 

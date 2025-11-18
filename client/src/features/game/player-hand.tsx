@@ -1,13 +1,11 @@
 import { Zone } from "@/components/ui";
-import { PlayerHandCard } from "@/features/game/card";
 import { useRef, useState } from "react";
 
-import { useAppSelector } from "@/hooks/redux";
-import { getPlayerHandCards } from "@/redux/selectors/game-selector";
+// import { getPlayerHandCards } from "@/redux/selectors/game-selector";
 import { useDroppable } from "@dnd-kit/core";
 
 export function PlayerHand() {
-  const cards = useAppSelector(getPlayerHandCards);
+  // const cards = useAppSelector(getPlayerHandCards);
 
   const container = useRef(null);
 
@@ -39,7 +37,7 @@ export function PlayerHand() {
           borderRadius: "8px",
         }}
       >
-        {cards.map(({ type, content, color, id }) => (
+        {/* {cards.map(({ type, content, color, id }) => (
           <PlayerHandCard
             type={type}
             content={content}
@@ -50,7 +48,7 @@ export function PlayerHand() {
             onCardMouseDown={bringToFront}
             container={container}
           />
-        ))}
+        ))} */}
       </div>
     </Zone>
   );
