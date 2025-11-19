@@ -33,7 +33,7 @@ export function PlayerHand() {
     <Zone color="blue" gridArea="player-hand" ref={container}>
       <div
         ref={setNodeRef}
-        className={`table-zone items-centers flex h-full grow ${isOver ? "bg-green-200/20" : "bg-gray-200/20"}`}
+        className={`table-zone items-centers min-h-62 flex h-full grow ${isOver ? "bg-green-200/20" : "bg-gray-200/20"}`}
         style={{
           border: "2px dashed #ccc",
           borderRadius: "8px",

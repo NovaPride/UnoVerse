@@ -1,6 +1,7 @@
 import { navigateTo } from "@/lib/navigation";
 import {
   cardDrawn,
+  discardPileChanged,
   playerDataChanged,
   roomDataChanged,
 } from "@/redux/slices/game-slice";
@@ -38,6 +39,12 @@ class ClientSocket {
   private setupListeners() {
     if (!this.socket) return;
 
+    this.socket.on("server-card-played", (playerInfo) => {
+      store.dispatch(playerDataChanged(playerInfo));
+    });
+    this.socket.on("server-discard-pile-updated", (discardPileIds) => {
+      store.dispatch(discardPileChanged(discardPileIds));
+    });
     this.socket.on("server-card-drawn", (cardIds) => {
       store.dispatch(cardDrawn(cardIds));
     });
@@ -54,15 +61,6 @@ class ClientSocket {
       toast.error(errorMessage);
       navigateTo("/");
     });
-    this.socket.on("server-game-state-updated", (errorMessage) => {
-      toast.error(errorMessage);
-      navigateTo("/");
-    });
-
-    // this.socket.on("server-game-created", (game) => {
-    //   console.log("!!!GAME CREATED!!!", game);
-    //   navigateTo(`/game/${game.roomId}`);
-    // });
   }
 
   //методы для инвока событий на сервак
@@ -72,6 +70,9 @@ class ClientSocket {
   }
   drawCard() {
     this.socket?.emit("client-draw-card");
+  }
+  playCard(cardId: string) {
+    this.socket?.emit("client-play-card", cardId);
   }
   connectRoom(roomId: string) {
     this.socket?.emit("client-connect-room", roomId);

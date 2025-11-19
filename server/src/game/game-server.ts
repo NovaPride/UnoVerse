@@ -67,11 +67,33 @@ export function setupGameHandlers(io: Server) {
       if (!player) {
         return;
       }
+
       const success = gameEngine.drawCard(room, player);
-      if (success && player) {
+      if (success) {
         socket.emit("server-card-drawn", player.cardIds);
       } else {
         socket.emit("server-draw-card-error", "Cannot draw card");
+      }
+    });
+
+    socket.on("client-play-card", (cardId: string) => {
+      const roomId = socket.data.roomId;
+      if (!roomId) return;
+
+      const room = roomManager.getRoom(roomId);
+      if (!room) return;
+
+      const player = room.players.find((elem) => elem.id === socket.id);
+      if (!player) {
+        return;
+      }
+      const success = gameEngine.playCard(room, player, cardId);
+
+      if (success) {
+        socket.emit("server-card-played", player);
+        io.to(roomId).emit("server-discard-pile-updated", room.gameState.discardPile);
+      } else {
+        socket.emit("server-play-card-error", "Cannot play card");
       }
     });
   });

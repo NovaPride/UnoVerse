@@ -10,13 +10,22 @@ interface IState {
 // export const getDiscardPileCards = (state: IState) => state.game.discard.cards;
 export const getRoom = (state: IState) => state.game.room;
 export const getPlayer = (state: IState) => state.game.player;
-const selectCardIds = (state: IState) => state.game.player.cardIds;
+const selectPlayerCardIds = (state: IState) => state.game.player.cardIds;
 
-export const selectPlayerCards = createSelector([selectCardIds], (cardIds) =>
-  cardIds?.map(parseCardId),
+export const selectPlayerCards = createSelector(
+  [selectPlayerCardIds],
+  (cardIds) => cardIds?.map(parseCardId),
 );
 
-export const selectCardById = createSelector(
-  [selectCardIds, (_, cardId: string) => cardId],
-  (cardIds, cardId) => parseCardId(cardId),
+// export const selectCardById = createSelector(
+//   [selectPlayerCardIds, (_, cardId: string) => cardId],
+//   (cardIds, cardId) => parseCardId(cardId),
+// );
+
+const selectDiscardPileCardIds = (state: IState) =>
+  state.game.room.gameState.discardPile;
+
+export const selectDiscardPilerCards = createSelector(
+  [selectDiscardPileCardIds],
+  (cardIds) => cardIds?.map(parseCardId),
 );

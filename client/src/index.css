@@ -17,6 +17,7 @@
 @source inline("bg-{red,green,yellow,pink,blue}-600/12");
 
 * {
+  list-style-type: none;
   user-select: none;
 }
 

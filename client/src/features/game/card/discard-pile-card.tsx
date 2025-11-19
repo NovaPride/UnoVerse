@@ -1,6 +1,8 @@
-import { type Card } from "@/types/game";
+import { getRandomIntInclusive } from "@/lib/utils";
 import { useDraggable } from "@dnd-kit/core";
+import { type Card } from "@shared/types/game";
 import { motion } from "motion/react";
+import { useRef } from "react";
 import { SimpleCard } from "./simple-card";
 
 type DiscardPileCardProps = Card & {
@@ -15,6 +17,7 @@ export function DiscardPileCard({
   id,
 }: DiscardPileCardProps) {
   const scale = { normal: 0.69, big: 1 }[size];
+  const rotate = useRef(`rotate(${getRandomIntInclusive(-10, 10)}deg)`);
 
   // transform, isDragging
   const { attributes, listeners, setNodeRef } = useDraggable({ id });
@@ -27,7 +30,15 @@ export function DiscardPileCard({
   };
 
   return (
-    <motion.div ref={setNodeRef} {...listeners} {...attributes}>
+    <motion.div
+      className="absolute"
+      ref={setNodeRef}
+      {...listeners}
+      {...attributes}
+      style={{
+        transform: rotate.current,
+      }}
+    >
       <SimpleCard {...simpleCardProps} />
     </motion.div>
   );

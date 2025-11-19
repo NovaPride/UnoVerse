@@ -22,9 +22,12 @@ export function GamePage() {
     const to = event.over?.id;
 
     if (!to) return;
-
     if (from === "draw-pile" && to === "player-hand-drop-zone") {
       clientSocket.drawCard();
+    }
+    if (from === "player-hand" && to === "discard-pile-drop-zone") {
+      const cardId = event.active.id;
+      clientSocket.playCard(cardId as string);
     }
   };
 

@@ -1,5 +1,5 @@
-import { type Card } from "@shared/types/game";
 import { useDraggable } from "@dnd-kit/core";
+import { type Card } from "@shared/types/game";
 import { motion, useDragControls } from "motion/react";
 import type { RefObject } from "react";
 import { SimpleCard } from "./simple-card";
@@ -41,6 +41,7 @@ export function PlayerHandCard({
     dragControls: controls,
     dragConstraints: container,
     dragElastic: 1,
+    dragSnapToOrigin: true, //TODO: пофиксить
     dragTransition: {
       bounceStiffness: 250,
       velocity: 0,

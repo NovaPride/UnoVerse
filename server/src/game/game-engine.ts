@@ -59,6 +59,16 @@ export class GameEngine {
     return true;
   }
 
+  playCard(room: Room, player: Player, cardId: string): boolean {
+    if (player.cardIds.includes(cardId)) {
+      player.cardIds = player.cardIds.filter((id) => id !== cardId);
+      room.gameState.discardPile.push(cardId);
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   // ИЗМЕНЕНО: возвращает boolean для индикации успеха
   private reshuffleDiscardPile(room: Room): boolean {
     if (room.gameState.discardPile.length <= 1) {

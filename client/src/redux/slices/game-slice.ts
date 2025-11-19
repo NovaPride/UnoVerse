@@ -44,9 +44,13 @@ const gameSlice = createSlice({
       state.room = action.payload;
       // state.player.cards.push(action.payload);
     },
+    discardPileChanged: (state, action: PayloadAction<CardId[]>) => {
+      state.room.gameState.discardPile = action.payload;
+      // state.player.cards.push(action.payload);
+    },
   },
 });
 const { actions, reducer } = gameSlice;
 
-export const { roomDataChanged, playerDataChanged, cardDrawn } = actions;
+export const { roomDataChanged, playerDataChanged, cardDrawn,discardPileChanged } = actions;
 export default reducer;
