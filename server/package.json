@@ -4,9 +4,9 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "tsx src/server.ts",
+    "start": "node dist/server/src/server.js",
     "dev": "nodemon --exec tsx src/server.ts",
-    "build": "tsc && node dist/server/src/server.js"
+    "build": "tsc"
   },
   "dependencies": {
     "@socket.io/admin-ui": "^0.5.1",
