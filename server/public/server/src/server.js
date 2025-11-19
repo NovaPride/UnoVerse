@@ -2,23 +2,19 @@ import express from "express";
 import { setupGameHandlers } from "./game/game-server.js";
 import { instrument } from "@socket.io/admin-ui";
 import { Server } from "socket.io";
-
 const app = express();
-
 const httpServer = app.listen(8080);
 const io = new Server(httpServer, {
-  cors: {
-    origin: [
-      "https://uno-verse.vercel.app/",
-      "http://localhost:5173",
-      "http://localhost:3030",
-    ],
-    credentials: true,
-  },
+    cors: {
+        origin: [
+            "https://uno-verse.vercel.app/",
+            "http://localhost:5173",
+            "http://localhost:3030",
+        ],
+        credentials: true,
+    },
 });
-
 setupGameHandlers(io);
-
 // херня чисто для socket admin ui
 const adminUI = express();
 adminUI.use(express.static("./node_modules/@socket.io/admin-ui/ui/dist"));
