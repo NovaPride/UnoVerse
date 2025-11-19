@@ -6,8 +6,9 @@ import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router";
 import { App } from "./App";
 import "./index.css";
+import { getSocketServerUrl } from "./lib/utils";
 
-clientSocket.__private.connect("http://localhost:8080");
+clientSocket.__private.connect(getSocketServerUrl());
 
 createRoot(document.getElementById("root")!).render(
   <BrowserRouter>

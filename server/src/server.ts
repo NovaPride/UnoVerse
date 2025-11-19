@@ -8,7 +8,11 @@ const app = express();
 const httpServer = app.listen(8080);
 const io = new Server(httpServer, {
   cors: {
-    origin: ["http://localhost:5173", "http://localhost:3030"],
+    origin: [
+      "https://uno-verse.vercel.app/",
+      "http://localhost:5173",
+      "http://localhost:3030",
+    ],
     credentials: true,
   },
 });

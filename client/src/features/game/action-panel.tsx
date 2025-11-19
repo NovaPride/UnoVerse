@@ -2,7 +2,7 @@ import { Zone } from "@/components/ui";
 import { useAppSelector } from "@/hooks/redux";
 import { getPlayer, getRoom } from "@/redux/selectors/game-selector";
 import type { Player, Room } from "@shared/types/game";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
 const buttonClass =
   "bg-amber-50 pt-1 pr-4 pb-1 pl-4 transition hover:bg-amber-600";
@@ -10,20 +10,20 @@ const buttonClass =
 export function ActionPanel() {
   const roomInfo: Room = useAppSelector(getRoom);
   const player: Player = useAppSelector(getPlayer);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
-  const handleClick = () => {
-    navigate("./test");
-  };
+  // const handleClick = () => {
+  //   navigate("./test");
+  // };
 
   const currentPlayersCount = roomInfo?.players?.length;
 
   return (
     <Zone color="pink" gridArea="action-panel">
       <div className="flex h-full grow flex-col items-center">
-        <button className={buttonClass} onClick={handleClick}>
+        {/* <button className={buttonClass} onClick={handleClick}>
           go to /test
-        </button>
+        </button> */}
 
         <label htmlFor="" className="text-xl mt-4 font-semibold text-white">
           Players count: {currentPlayersCount}
