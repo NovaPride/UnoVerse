@@ -6,7 +6,6 @@ import type {
 } from "@shared/types/game";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { __SOCKET_SERVER_URL__, __SOCKET_SERVER_URL_LOCAL__ } from "./constants";
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
@@ -69,5 +68,5 @@ export function getRandomIntInclusive(min: number, max: number) {
 }
 
 export function getSocketServerUrl ()  {
-  return import.meta.env.MODE === "development" ? __SOCKET_SERVER_URL_LOCAL__ : __SOCKET_SERVER_URL__;
+  return import.meta.env.MODE === "development" ? import.meta.env.VITE_SOCKET_SERVER_URL_LOCAL : import.meta.env.VITE_SOCKET_SERVER_URL;
 }
