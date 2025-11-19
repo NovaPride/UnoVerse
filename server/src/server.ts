@@ -18,12 +18,7 @@ app.use((req, res, next) => {
 const httpServer = app.listen(8080);
 const io = new Server(httpServer, {
   cors: {
-    origin: [
-      "https://uno-verse.vercel.app/",
-      "http://localhost:5173",
-      "http://localhost:3030",
-      "*"
-    ],
+    origin: "*",
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   },
