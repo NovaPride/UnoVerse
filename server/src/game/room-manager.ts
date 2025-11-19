@@ -1,6 +1,6 @@
-import { transformPlayer } from "@/utils";
+import { transformPlayer } from "../utils.js";
 import type { BasePlayer, GameState, Player, Room } from "@shared/types/game";
-import { GameEngine } from "./game-engine";
+import { GameEngine } from "./game-engine.js";
 
 export class RoomManager {
   private rooms: Map<string, Room> = new Map();

@@ -1,8 +1,8 @@
 // server/gameServer.ts
 import { Server } from "socket.io";
-import { roomManager } from "./room-manager";
+import { roomManager } from "./room-manager.js";
 import type { BasePlayer } from "@shared/types/game";
-import { GameEngine } from "./game-engine";
+import { GameEngine } from "./game-engine.js";
 
 export function setupGameHandlers(io: Server) {
   const gameEngine = new GameEngine(); //убрать нахуй и сделать как с roommaanger

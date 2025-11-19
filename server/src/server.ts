@@ -1,5 +1,5 @@
 import express from "express";
-import { setupGameHandlers } from "./game/game-server";
+import { setupGameHandlers } from "./game/game-server.js";
 import { instrument } from "@socket.io/admin-ui";
 import { Server } from "socket.io";
 

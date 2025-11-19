@@ -1,4 +1,8 @@
-import { type Card, type DigitRange, type SpecialContent } from "@/types/game";
+import {
+  type Card,
+  type DigitRange,
+  type SpecialContent,
+} from "@shared/types/game";
 
 type SimpleCardProps = Omit<Card, "id"> & {
   scale: number;
