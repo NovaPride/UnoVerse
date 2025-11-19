@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "ES2022",
     "module": "ESNext",
-    "outDir": "./dist",
+    "outDir": "./public",
     "moduleResolution": "node",
     "strict": true,
     "esModuleInterop": true,
