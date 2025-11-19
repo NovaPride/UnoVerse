@@ -5,6 +5,16 @@ import { Server } from "socket.io";
 
 const app = express();
 
+app.use((req, res, next) => {
+  res.header(
+    "Access-Control-Allow-Origin",
+    "https://uno-verse.vercel.app/"
+  );
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
 const httpServer = app.listen(8080);
 const io = new Server(httpServer, {
   cors: {
@@ -14,6 +24,7 @@ const io = new Server(httpServer, {
       "http://localhost:3030",
       "*"
     ],
+    methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   },
 });
